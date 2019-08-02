@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">OI Notepad</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_add_note">AddNote</string>
+    <string name="facebook_app_id">436414596949435</string>
+    <string name="fb_login_protocol_scheme">fb436414596949435</string>
+</resources>
