@@ -1,5 +1,6 @@
 package com.example.oinotepad;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,9 +25,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     private FirebaseDatabase mfirebasedatabase;
     private DatabaseReference mdatabasereference;
     private ChildEventListener mchildEventListener;
+    private static Activity callerActivity;
 
     public NoteAdapter(){
-        FirebaseUtil.openFbReference("notes");
+        FirebaseUtil.openFbReference("notes",callerActivity);
         mfirebasedatabase=FirebaseUtil.mfirebasedatabase;
         mdatabasereference= FirebaseUtil.mdatabasereference;
         notes=FirebaseUtil.mnotes;
@@ -88,15 +90,24 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return notes.size();
     }
 
-    public class NoteViewHolder extends RecyclerView.ViewHolder{
+    public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvTitle;
+        TextView tvNote;
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle=itemView.findViewById(R.id.tvTitle);
+            tvNote=itemView.findViewById(R.id.tvNote);
 
         }
         public void bind(Note note){
             tvTitle.setText(note.getTitle());
+            tvNote.setText(note.getNotes());
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position=getAdapterPosition();
+
         }
     }
 }

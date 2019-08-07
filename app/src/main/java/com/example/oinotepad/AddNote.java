@@ -28,7 +28,7 @@ public class AddNote extends AppCompatActivity {
         setContentView(R.layout.activity_add_note);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FirebaseUtil.openFbReference("notes");
+        FirebaseUtil.openFbReference("notes",this);
         mfirebasedatabase=FirebaseUtil.mfirebasedatabase;
         mdatabasereference= FirebaseUtil.mdatabasereference;
         etTitle=findViewById(R.id.etTitle);
@@ -58,5 +58,6 @@ public class AddNote extends AppCompatActivity {
         etNote.setText("");
         etTitle.requestFocus();
     }
+
 
 }
