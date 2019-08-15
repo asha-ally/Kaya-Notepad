@@ -1,5 +1,6 @@
 package com.example.oinotepad;
 
+import android.app.FragmentManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +37,7 @@ import java.util.List;
 
 import static com.example.oinotepad.app.AppFunctions.func_showToast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     ArrayList<Note>notes;
     ImageView fab;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {

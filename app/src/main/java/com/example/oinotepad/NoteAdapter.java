@@ -2,6 +2,7 @@ package com.example.oinotepad;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
@@ -97,6 +99,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             super(itemView);
             tvTitle=itemView.findViewById(R.id.tvTitle);
             tvNote=itemView.findViewById(R.id.tvNote);
+            itemView.setOnClickListener(this);
 
         }
         public void bind(Note note){
@@ -107,6 +110,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         @Override
         public void onClick(View view) {
             int position=getAdapterPosition();
+            Log.d("position",String.valueOf(position));
+            Note clickednote=notes.get(position);
+            Intent intent=new Intent(view.getContext(),ViewNote.class);
+            intent.putExtra("Note", clickednote);
+            view.getContext().startActivity(intent);
+
+
 
         }
     }

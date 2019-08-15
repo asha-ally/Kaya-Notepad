@@ -4,4 +4,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_add_note">AddNote</string>
     <string name="fb_login_protocol_scheme">fb436414596949435</string>
+    <string name="ViewNote">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda et explicabo voluptate? Exercitationem iure minus neque, nisi nobis tempore! Ad animi cum cupiditate, id minus repellat sed tempore voluptatem voluptatum.</string>
+
+
 </resources>

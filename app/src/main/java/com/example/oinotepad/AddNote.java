@@ -1,5 +1,6 @@
 package com.example.oinotepad;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.firebase.database.DatabaseReference;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import static com.example.oinotepad.app.AppFunctions.func_showToast;
+
 public class AddNote extends AppCompatActivity {
     private FirebaseDatabase mfirebasedatabase;
     private DatabaseReference mdatabasereference;
@@ -21,6 +24,7 @@ public class AddNote extends AppCompatActivity {
     Button AddPhoto;
     Button AddVoiceNote;
     Button btnSave;
+    Note note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,14 @@ public class AddNote extends AppCompatActivity {
         AddPhoto=findViewById(R.id.btnAddPhoto);
         AddVoiceNote=findViewById(R.id.btnAddVoiceNote);
         btnSave=findViewById(R.id.btnSave);
+        Intent intent=getIntent();
+        Note note=(Note) intent.getSerializableExtra("Note");
+        if (note==null){
+            note=new Note();
+        }
+        this.note=note;
+        etTitle.setText(note.getTitle());
+        etNote.setText(note.getNotes());
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,12 +59,21 @@ public class AddNote extends AppCompatActivity {
         });
     }
     private void saveNote(){
-        String title=etTitle.getText().toString();
-        String noteText=etNote.getText().toString();
-        Note note=new Note(title,noteText,"","");
-        mdatabasereference.push().setValue(note); //.addOnFailureListener( AddNote.class,"hakuna");
+        note.setTitle(etTitle.getText().toString());
+        note.setNotes(etNote.getText().toString());
+        if (note.getId()==null){
+            mdatabasereference.push().setValue(note); //.addOnFailureListener( AddNote.class,"hakuna");
+
+        }
+        else {
+            mdatabasereference.child(note.getId()).setValue(note);
+        }
         Log.d("fire", "etc.. "+note);
     }
+
+
+
+
     private void clean(){
         etTitle.setText("");
         etNote.setText("");

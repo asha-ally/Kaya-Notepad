@@ -1,8 +1,9 @@
 package com.example.oinotepad;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 
-public class Note {
+public class Note implements Serializable {
     private String id;
     private String title;
     private String notes;
