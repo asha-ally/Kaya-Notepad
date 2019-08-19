@@ -1,5 +1,6 @@
 package com.example.oinotepad;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ClipData;
 import android.content.Context;
@@ -17,13 +18,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.provider.ContactsContract;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -32,17 +40,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.oinotepad.app.AppFunctions.func_showToast;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList<Note>notes;
     ImageView fab;
 
+    Context context;
+    Activity activity;
+
     private DrawerLayout drawer;
+    static final String appDirectoryName = "Notepad";
+    static final File imageRoot = new File(Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES), appDirectoryName);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +68,10 @@ public class MainActivity extends AppCompatActivity{
 
         setSupportActionBar(toolbar);
 
+        context = MainActivity.this;
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         fab = findViewById(R.id.fab);
         drawer = findViewById(R.id.drawer_layout);
 
@@ -82,6 +101,38 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout_menu:
+//                AuthUI.getInstance()
+//                        .signOut(this)
+//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            public void onComplete(@NonNull Task<Void> task) {
+//                                Log.d("logout","LogOut successful");
+//                            }
+//                        });
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.nav_email:
+               func_showToast(context, "wassup yo!!");
+                break;
+            case R.id.logout_menu:
+               logout();
+                break;
+        }
+        return  true;
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         FirebaseUtil.dettachListner();
@@ -98,6 +149,17 @@ public class MainActivity extends AppCompatActivity{
                 new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rvNotes.setLayoutManager(noteslayoutmanager);
         FirebaseUtil.attachListener();
+    }
+
+
+    public void logout(){
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d("logout","LogOut successful");
+                    }
+                });
     }
 
 

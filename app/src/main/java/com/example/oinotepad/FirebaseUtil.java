@@ -9,6 +9,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +24,8 @@ public class FirebaseUtil {
     public static DatabaseReference mdatabasereference;
     public  static FirebaseAuth mFirebaseAuth;
     public static FirebaseAuth.AuthStateListener mAuthlistener;
+    public static FirebaseStorage mFirebaseStorage;
+    public static StorageReference mStorageReference;
     private static FirebaseUtil firebaseUtil;
     public static ArrayList<Note> mnotes;
     private static final int RC_SIGN_IN=123;
@@ -44,6 +48,7 @@ public class FirebaseUtil {
                     func_showToast(caller.getBaseContext(),"Welcome Back");
                 }
             };
+            connectStorage();
 
         }
 
@@ -72,5 +77,9 @@ public class FirebaseUtil {
     }
     public static void dettachListner(){
         mFirebaseAuth.removeAuthStateListener(mAuthlistener);
+    }
+    public static void connectStorage(){
+        mFirebaseStorage=FirebaseStorage.getInstance();
+        mStorageReference=mFirebaseStorage.getReference().child("note_pictures");
     }
 }
