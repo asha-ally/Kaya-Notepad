@@ -158,8 +158,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
                         Log.d("logout","LogOut successful");
+                        FirebaseUtil.attachListener();
                     }
                 });
+        FirebaseUtil.dettachListner();
     }
 
 

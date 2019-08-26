@@ -43,14 +43,15 @@ public class ViewNote extends AppCompatActivity {
         btnDelete=findViewById(R.id.btnDelete);
         btnEdit=findViewById(R.id.btnEdit);
         imageView=findViewById(R.id.imageView);
-        Intent intent=getIntent();
-        Note note=(Note) intent.getSerializableExtra("Note");
+        Intent intent=getIntent();Note note=(Note) intent.getSerializableExtra("Note");
+
                 if (note==null){
                     note=new Note();
                 }
                 this.note=note;
                 tvTitle.setText(note.getTitle());
                 tvNoteText.setText(note.getNotes());
+
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override

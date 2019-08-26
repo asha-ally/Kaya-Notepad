@@ -43,14 +43,7 @@ public class Note implements Serializable {
         this.notes = notes;
     }
 
-//    public Array getImageUrl() {
-//        return imageUrl;
-//    }
-//
-//    public void setImageUrl(Array imageUrl) {
-//        this.imageUrl = imageUrl;
-    //}
-    public String getImageUrl() {
+    public String getImageUrl(String url) {
         return imageUrl;
     }
 

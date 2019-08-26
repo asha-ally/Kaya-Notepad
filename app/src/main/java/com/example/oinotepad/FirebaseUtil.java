@@ -49,7 +49,6 @@ public class FirebaseUtil {
                 }
             };
             connectStorage();
-
         }
 
         mnotes=new ArrayList<Note>();
@@ -81,5 +80,6 @@ public class FirebaseUtil {
     public static void connectStorage(){
         mFirebaseStorage=FirebaseStorage.getInstance();
         mStorageReference=mFirebaseStorage.getReference().child("note_pictures");
+        mStorageReference=mFirebaseStorage.getReference().child("note_audio");
     }
 }

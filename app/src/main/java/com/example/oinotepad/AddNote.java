@@ -1,5 +1,6 @@
 package com.example.oinotepad;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
@@ -7,9 +8,15 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +28,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +46,10 @@ public class AddNote extends AppCompatActivity {
     Button AddVoiceNote;
     Button btnSave;
     Note note;
-    private static final int CAPTURE_IMAGE_REQUEST_CODE = 600;
+    Context context;
+    private static final int PICTURE_RESULT= 42;
+    private static final int AUDIO_RESULT= 52;
+    ImageView imageView;
 
 
     @Override
@@ -54,6 +66,9 @@ public class AddNote extends AppCompatActivity {
         AddPhoto = findViewById(R.id.btnAddPhoto);
         AddVoiceNote = findViewById(R.id.btnAddVoiceNote);
         btnSave = findViewById(R.id.btnSave);
+        context=AddNote.this;
+         imageView=findViewById(R.id.imageView);
+
         Intent intent = getIntent();
         Note note = (Note) intent.getSerializableExtra("Note");
         if (note == null) {
@@ -72,12 +87,23 @@ public class AddNote extends AppCompatActivity {
             }
         });
         AddPhoto.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+                Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/jpg");
+               intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+                startActivityForResult(intent.createChooser(intent,
+                        "Insert Picture"),PICTURE_RESULT);
+           }
+        });
+        AddVoiceNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
-                imageRoot.mkdirs();
-                final File image = new File(imageRoot, "image1.jpg");
+                Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("audio/amr");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+                startActivityForResult(intent.createChooser(intent,
+                        "Insert Audio"),AUDIO_RESULT);
 
             }
         });
@@ -86,40 +112,50 @@ public class AddNote extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == PICTURE_RESULT && resultCode == RESULT_OK && data!= null && data.getData() != null ) {
             Uri imageUri = data.getData();
-//            if (imageUri!=null){
-//            StorageReference ref=FirebaseUtil.mStorageReference.child(imageUri.getLastPathSegment());
-//            ref.putFile(imageUri);}
-            try {
-                StorageReference ref = FirebaseUtil.mStorageReference.child(imageUri.getLastPathSegment());
-                ref.putFile(imageUri);
-            } catch (NullPointerException e) {
-                func_showToast(this, "error");
-            }
+                final StorageReference ref = FirebaseUtil.mStorageReference.child(imageUri.getLastPathSegment());
+            UploadTask task = ref.putFile(imageUri);
+            Task<Uri> urlTask = task.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    // Continue with the task to get the download URL
+                    return ref.getDownloadUrl();
+                }
+
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        Log.d("pic",downloadUri.toString());
+                    } else {
+                        // Handle failures
+                        // ...
+                    }
+                }
+            });
+//            .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                   @Override
+//                   public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                       String url=taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+//                       Log.d("url",url);
+//                       note.setImageUrl(url);
+//                       saveNote();
+//
+//                   }
+//               });
+
+
+
         }
 
-//       
-        AddVoiceNote.setOnClickListener(new View.OnClickListener()
-
-    {
-        @Override
-        public void onClick (View view){
-//        MediaRecorder myAudioRecorder = new MediaRecorder();
-//        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-//        myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-//        myAudioRecorder.setOutputFile("mp3");
-//        try {
-//            myAudioRecorder.prepare();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        myAudioRecorder.start();
-
-    }
-    });
 }
+
 
     private void saveNote(){
         note.setTitle(etTitle.getText().toString());
@@ -133,8 +169,6 @@ public class AddNote extends AppCompatActivity {
         }
         Log.d("fire", "etc.. "+note);
     }
-
-
 
 
     private void clean(){
