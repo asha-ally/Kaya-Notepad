@@ -2,6 +2,7 @@ package com.example.oinotepad;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -97,20 +99,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.logout_menu:
-//                AuthUI.getInstance()
-//                        .signOut(this)
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                Log.d("logout","LogOut successful");
-//                            }
-//                        });
+            case R.id.action_search:
 
         }
         return super.onOptionsItemSelected(item);

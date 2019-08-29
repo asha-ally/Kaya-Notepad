@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +52,10 @@ public class ViewNote extends AppCompatActivity {
                 this.note=note;
                 tvTitle.setText(note.getTitle());
                 tvNoteText.setText(note.getNotes());
+                String tvImage = note.getImageUrl();
+                func_showToast(getBaseContext(), tvImage);
+
+//                imageView.setImageBitmap(bm);
 
 
         btnEdit.setOnClickListener(new View.OnClickListener() {

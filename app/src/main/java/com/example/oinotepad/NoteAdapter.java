@@ -39,6 +39,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Note note=dataSnapshot.getValue(Note.class);
                 Log.d("fity",note.getTitle());
+//                Log.d("pic",note.getImageUrl());
+
                 note.setId(dataSnapshot.getKey());
                 notes.add(note);
                 notifyItemInserted(notes.size()-1);

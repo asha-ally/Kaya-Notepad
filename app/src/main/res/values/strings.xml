@@ -6,6 +6,7 @@
     <string name="fb_login_protocol_scheme">fb436414596949435</string>
     <string name="ViewNote">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda et explicabo voluptate? Exercitationem iure minus neque, nisi nobis tempore! Ad animi cum cupiditate, id minus repellat sed tempore voluptatem voluptatum.</string>
     <string name="title_activity_audio">Audio</string>
+    <string name="search">Search</string>
 
 
 </resources>

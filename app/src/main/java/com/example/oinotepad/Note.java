@@ -10,15 +10,14 @@ public class Note implements Serializable {
     private String imageUrl;
     private String audioUrl;
 
-    public Note( String title, String notes, String imageUrl, String audioUrl) {
-        this.setId(id);
-        this.setTitle(title);
-        this.setNotes(notes);
-        this.setImageUrl(imageUrl);
-        this.setAudioUrl(audioUrl);
+    public Note(String id, String title, String notes, String imageUrl, String audioUrl) {
+        this.id = id;
+        this.title = title;
+        this.notes = notes;
+        this.imageUrl = imageUrl;
+        this.audioUrl = audioUrl;
     }
     public Note(){}
-
     public String getId() {
         return id;
     }
@@ -43,7 +42,7 @@ public class Note implements Serializable {
         this.notes = notes;
     }
 
-    public String getImageUrl(String url) {
+    public String getImageUrl() {
         return imageUrl;
     }
 

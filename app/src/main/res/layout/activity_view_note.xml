@@ -44,9 +44,10 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:alpha="1"
-                android:src="@drawable/images"
                 android:visibility="visible"
+                android:src="@drawable/images"
                 />
+
 
 
             <TextView

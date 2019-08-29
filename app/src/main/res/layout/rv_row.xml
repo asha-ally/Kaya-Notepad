@@ -11,16 +11,16 @@
         android:layout_height="wrap_content"
         >
 
-    <ImageView
-        android:id="@+id/imgView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:src="@mipmap/ic_launcher_round"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -33,9 +33,6 @@
         android:layout_toRightOf="@id/imgView"
         />
 
-        <!--app:layout_constraintStart_toEndOf="@id/imgView"
-        app:layout_constraintTop_toTopOf="parent" -->
-
     <TextView
         android:id="@+id/tvNote"
         android:layout_width="wrap_content"
@@ -47,6 +44,19 @@
         tools:layout_editor_absoluteX="96dp"
         tools:layout_editor_absoluteY="70dp"
         />
+
+        <!--<TextView-->
+            <!--android:id="@+id/tvFolder"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="28dp"-->
+            <!--android:gravity="bottom"-->
+            <!--android:text="textView" />-->
+            <!--android:layout_toRightOf="@id/imgView"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:lvayout_marginLeft="8dp"-->
+
+
 
 
 
